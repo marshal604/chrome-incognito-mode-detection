@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trustpilot Detection</title>
+</head>
+
+<body>
+    <script>
+        window.onload = function () {
+            const DOMAINS = ['amazingtalker.com', 'at.localhost']
+            window.addEventListener('message', function (event) {
+                const {
+                    origin,
+                    source
+                } = event
+
+                if (!DOMAINS.some(domain => origin.includes(domain))) return
+                try {
+                    window.localStorage
+                    source.postMessage({
+                        canUseTrustpilot: true
+                    }, event.origin)
+                } catch {
+                    source.postMessage({
+                        canUseTrustpilot: false
+                    }, event.origin)
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
